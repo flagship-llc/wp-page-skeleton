@@ -25,10 +25,9 @@ class WPSkeleton {
     add_action('admin_init', array($this, 'admin_init'));
     add_action('admin_menu', array($this, 'admin_menu'));
 
-    $file = get_stylesheet_directory() . '/skeleton.yml';
-    if (file_exists($file)) {
+    $this->file = get_stylesheet_directory() . '/skeleton.yml';
+    if (file_exists($this->file)) {
       $this->enabled = true;
-      $this->file = $file;
     }
   }
 
@@ -141,6 +140,29 @@ class WPSkeleton {
     }
   }
 
+  function generate(&$error, $include_content = false, $write_to_file = false) {
+    // Generate the YAML file.
+    $error = false;
+
+    $this->master_page_array = array();
+
+    $this->recurse_pages($include_content);
+
+    $this->master_page_array = $this->master_page_array['pages'];
+    $skeleton = Spyc::YAMLDump($this->master_page_array);
+
+    if ($write_to_file) {
+      if (($f = @fopen($this->file, 'w')) === false) {
+        $error = 'file permission';
+      } else {
+        fwrite($f, $skeleton);
+        fclose($f); 
+      }
+    }
+
+    return $skeleton;
+  }
+
   function admin_init() {
 
   }
@@ -159,6 +181,71 @@ class WPSkeleton {
       }
     );
 
+    add_submenu_page(
+      'wp_page_skeleton',
+      'Generate Skeleton',
+      'Generate Skeleton',
+      'edit_pages',
+      'wp_page_skeleton_generate',
+      function() use ($wp_page_skeleton) {
+        require(dirname(__FILE__) . '/admin_generate.php');
+      }
+    );
+
+  }
+
+  private $master_page_array = array();
+
+  private function recurse_pages($include_content = false, $parents = array(0), $slugs = array()) {
+    $args = array(
+      'hierarchical' => 0,
+      'child_of' => end($parents),
+      'parent' => end($parents)
+    );
+    $pages = get_pages($args);
+    foreach ($pages as $page) {
+      $parents_a = $parents;
+      $slugs_a = $slugs;
+      if (end($parents_a) == 0) {
+        // Initial array.
+        $parents_a = array();
+        $slugs_a = array();
+      }
+      $parents_a[] = $page->ID;
+      $slugs_a[] = $page->post_name;
+
+      // $page_id_seq = implode('/', $slugs_a);
+      // echo "{$page_id_seq} {$page->post_name}\n";
+
+      $page_array = array(
+        'title' => $page->post_title,
+        'status' => $page->post_status
+      );
+
+      if ($include_content === true) {
+        $page_array['content'] = $page->post_content;
+      }
+
+      $template = get_post_meta($page->ID, '_wp_page_template', true);
+      if ($template) {
+        $page_array['template'] = $template;
+      }
+
+      // Insert this $page_array array into the master array
+      $cursor = &$this->master_page_array;
+      foreach ($slugs_a as $slug) {
+        if (!array_key_exists('pages', $cursor)) {
+          $cursor['pages'] = array();
+        }
+        if (!array_key_exists($slug, $cursor['pages'])) {
+          $cursor['pages'][$slug] = array();
+        }
+        $cursor = &$cursor['pages'][$slug];
+      }
+      $cursor = $page_array;
+
+      $this->recurse_pages($include_content, $parents_a, $slugs_a);
+    }
   }
 
   private function make_page_array($page_data, $parent, $slug = null) {

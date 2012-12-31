@@ -7,6 +7,7 @@ if (!$wp_page_skeleton->enabled):
 ?>
 <h2>Sorry, Page Skeleton is not enabled.</h2>
 <p>Please make the <code>skeleton.yml</code> file in the root of your theme directory. Use the <code>skeleton.yml</code> file as a reference.</p>
+<p>Or, do you want to <a href="admin.php?page=wp_page_skeleton_generate">generate it</a>?</p>
 <?php
 else:
 ?>
