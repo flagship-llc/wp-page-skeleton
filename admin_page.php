@@ -36,7 +36,7 @@ $wp_page_skeleton->sync($action);
         <?php if (array_key_exists('page', $p)): ?>
         <a href="<?php echo get_permalink($p['page']); ?>">
         <?php endif; ?>
-          <?php echo $p['slug']; ?>
+          <?php echo urldecode($p['slug']); ?>
         <?php if (array_key_exists('page', $p)): ?>
         </a>
         <?php endif; ?>

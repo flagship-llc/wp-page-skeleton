@@ -212,7 +212,7 @@ class WPSkeleton {
         $slugs_a = array();
       }
       $parents_a[] = $page->ID;
-      $slugs_a[] = $page->post_name;
+      $slugs_a[] = urldecode($page->post_name);
 
       // $page_id_seq = implode('/', $slugs_a);
       // echo "{$page_id_seq} {$page->post_name}\n";
