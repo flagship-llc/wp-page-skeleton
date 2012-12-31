@@ -1,23 +1,22 @@
 # Example Skeleton.yml
 # This file demonstrates all capabilities of Page Skeleton
 
-pages: # root "Pages" element
-  contact: # the page slug. In this case, this page will have the structure /contact/
-    title: Contact us!
-    content: We want you to contact us. So please use our form to contact us!
-    template: template-contact-page.php
-    pages: # child "pages" element: all pages will be children of the "contact" page
-      form: # structure: /contact/form/
-        title: Contact form
-        content: Some contact form
-        template: template-contact-form.php
-      employees: # structure: /contact/employees/
-        title: Contact employees
-        content: We have many employees you can contact directly.
-  about: # structure: /about/
-    title: About Page Skeleton
-    template: template-about-page-skeleton.php
-    pages:
-      features: # structure: /about/features/
-        title: features
-        content: This content uses the default template
+contact: # the page slug. In this case, this page will have the structure /contact/
+  title: Contact us!
+  content: We want you to contact us. So please use our form to contact us!
+  template: template-contact-page.php
+  pages: # child "pages" element: all pages will be children of the "contact" page
+    form: # structure: /contact/form/
+      title: Contact form
+      content: Some contact form
+      template: template-contact-form.php
+    employees: # structure: /contact/employees/
+      title: Contact employees
+      content: We have many employees you can contact directly.
+about: # structure: /about/
+  title: About Page Skeleton
+  template: template-about-page-skeleton.php
+  pages:
+    features: # structure: /about/features/
+      title: features
+      content: This content uses the default template
