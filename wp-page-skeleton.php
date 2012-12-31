@@ -19,6 +19,7 @@ if (!is_file($spyc_path)) {
 class WPSkeleton {
 
   public $enabled = false;
+  public $pages_to_update = array();
 
   function init() {
     add_action('admin_init', array($this, 'admin_init'));
@@ -39,10 +40,12 @@ class WPSkeleton {
     if ($pages_array === false) {
       // Use the root element.
       $pages_array = $this->load_configuration();
+      // - Since we're at the root element, we'll reset the pages to update array.
+      $this->pages_to_update = array();
     }
     foreach ($pages_array as $slug => $page_data) {
       // Check if the page exists (use slug as key) - store page into $current_page
-      $current_path = '';
+      $current_path = '/';
       if ($parent === false) {
         $current_path .= sanitize_title($slug);
       } else {
@@ -67,34 +70,42 @@ class WPSkeleton {
           $slugs[] = sanitize_title($slug);
         }
 
-        $current_path = implode('/', $slugs);
+        $current_path .= implode('/', $slugs);
       }
-      if ($current_path == '') {
+      if ($current_path == '/') {
         // Nothing has changed. Empty slugs are not good.
         continue;
       }
 
-      echo "Slug: $current_path\n";
+      $page_data_array = array(
+        'slug' => $current_path
+      );
+
       $current_page = get_page_by_path($current_path);
 
       // If the page exists:
       if ($current_page != null) {
+        $page_data_array['action'] = 'update';
+
+        // Since the page exists, we can embed the actual page into the array
+        $page_data_array['page'] = $current_page;
 
         if ($action === false) {
 
-          echo " - Marked for update.\n";
+          // No action update
 
         } else {
 
-          echo " - Marked for update (not implemented yet).\n";
+          // Update the page
 
         }
 
       } else {
         // If the page doesn't exist, create page
+        $page_data_array['action'] = 'create';
+
         if ($action === false) {
 
-          echo " - Marked for creation.\n";
           $current_page = isset($slugs) ? $slugs : array(sanitize_title($slug));
 
         } else {
@@ -129,13 +140,13 @@ class WPSkeleton {
             update_post_meta($new_page_id, '_wp_page_template', $page_data['template']);
           }
 
-          echo " - Created.\n";
-
           $current_page = get_page($new_page_id);
         }
       }
 
       // Recurse into child pages.
+      $this->pages_to_update[] = $page_data_array;
+
       if (array_key_exists('pages', $page_data)) {
         $this->sync($action, $page_data['pages'], $current_page);
       }

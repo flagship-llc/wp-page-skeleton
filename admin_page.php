@@ -1,37 +1,50 @@
 <?php
 // Admin page.
 ?>
-<h1>Skeleton</h1>
+<h1>Page Skeleton</h1>
 <?php
 if (!$wp_page_skeleton->enabled):
 ?>
-<h2>Sorry, Skeleton is not enabled.</h2>
-<p>Please make the "skeleton.yml" file in the root of your theme directory. Here is a sample structure:</p>
-<pre>
-pages:
-  parent_slug:
-    title: I am the Parent
-    content: This is some content.
-    template: use-this-template.php
-    pages:
-      child_1:
-        title: I am child 1
-        template: child_1.php
-      child_2:
-        title: I am child 2
-        template: child_2.php
-</pre>
+<h2>Sorry, Page Skeleton is not enabled.</h2>
+<p>Please make the <code>skeleton.yml</code> file in the root of your theme directory. Use the <code>skeleton.yml</code> file as a reference.</p>
 <?php
 else:
 ?>
 
-<pre><?php
+<?php
 if (wp_verify_nonce($_POST['_wpnonce'], 'wp_page_skeleton_sync')) {
-  $wp_page_skeleton->sync(true);  
+  $action = true;
 } else {
-  $wp_page_skeleton->sync(false);
+  $action = false;
 }
-?></pre>
+
+$wp_page_skeleton->sync($action);
+?>
+
+<table class="wp-list-table widefat fixed">
+  <thead>
+    <tr>
+      <th>Slug</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <?php foreach ($wp_page_skeleton->pages_to_update as $p): ?>
+    <tr>
+      <td>
+        <?php if (array_key_exists('page', $p)): ?>
+        <a href="<?php echo get_permalink($p['page']); ?>">
+        <?php endif; ?>
+          <?php echo $p['slug']; ?>
+        <?php if (array_key_exists('page', $p)): ?>
+        </a>
+        <?php endif; ?>
+      </td>
+      <td><?php echo $action ? 'done:' : 'will:' ?> <?php echo $p['action']; ?></td>
+    </tr>
+    <?php endforeach; ?>
+  </tbody>
+</table>
 
 <form action="" method="POST">
   <?php wp_nonce_field( 'wp_page_skeleton_sync' ); ?>
