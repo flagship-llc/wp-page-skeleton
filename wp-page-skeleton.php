@@ -99,6 +99,13 @@ class WPSkeleton {
         } else {
 
           // Update the page
+          $new_page = $this->make_page_array($page_data, $parent);
+          $new_page['ID'] = $current_page->ID;
+          wp_update_post($new_page);
+
+          if (array_key_exists('template', $page_data)) {
+            update_post_meta($new_page['ID'], '_wp_page_template', $page_data['template']);
+          }
 
         }
 
@@ -112,29 +119,7 @@ class WPSkeleton {
 
         } else {
 
-          $new_page = array(
-            'post_name' => $slug
-          );
-
-          if (array_key_exists('title', $page_data)) {
-            $new_page['post_title'] = $page_data['title'];
-          }
-
-          if (array_key_exists('content', $page_data)) {
-            $new_page['post_content'] = $page_data['content'];
-          }
-
-          if (array_key_exists('status', $page_data)) {
-            $new_page['post_status'] = $page_data['post_status'];
-          } else {
-            $new_page['post_status'] = 'publish';
-          }
-
-          if ($parent !== false) {
-            $new_page['post_parent'] = $parent->ID;
-          }
-
-          $new_page['post_type'] = 'page';
+          $new_page = $this->make_page_array($page_data, $parent, $slug);
 
           $new_page_id = wp_insert_post($new_page);
 
@@ -143,6 +128,7 @@ class WPSkeleton {
           }
 
           $current_page = get_page($new_page_id);
+          $page_data_array['page'] = $current_page;
         }
       }
 
@@ -173,6 +159,36 @@ class WPSkeleton {
       }
     );
 
+  }
+
+  private function make_page_array($page_data, $parent, $slug = null) {
+    $new_page = array();
+
+    if ($slug != null) {
+      $new_page['post_name'] = $slug;
+    }
+
+    if (array_key_exists('title', $page_data)) {
+      $new_page['post_title'] = $page_data['title'];
+    }
+
+    if (array_key_exists('content', $page_data)) {
+      $new_page['post_content'] = $page_data['content'];
+    }
+
+    if (array_key_exists('status', $page_data)) {
+      $new_page['post_status'] = $page_data['post_status'];
+    } else {
+      $new_page['post_status'] = 'publish';
+    }
+
+    if ($parent !== false) {
+      $new_page['post_parent'] = $parent->ID;
+    }
+
+    $new_page['post_type'] = 'page';
+
+    return $new_page;
   }
 }
 
