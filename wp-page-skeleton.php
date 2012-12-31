@@ -177,7 +177,7 @@ class WPSkeleton {
     }
 
     if (array_key_exists('status', $page_data)) {
-      $new_page['post_status'] = $page_data['post_status'];
+      $new_page['post_status'] = $page_data['status'];
     } else {
       $new_page['post_status'] = 'publish';
     }
