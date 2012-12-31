@@ -45,9 +45,9 @@ class WPSkeleton {
     }
     foreach ($pages_array as $slug => $page_data) {
       // Check if the page exists (use slug as key) - store page into $current_page
-      $current_path = '/';
+      $current_path = '';
       if ($parent === false) {
-        $current_path .= sanitize_title($slug);
+        $current_path = sanitize_title($slug);
       } else {
         // We have a parent.
         
@@ -70,12 +70,14 @@ class WPSkeleton {
           $slugs[] = sanitize_title($slug);
         }
 
-        $current_path .= implode('/', $slugs);
+        $current_path = implode('/', $slugs);
       }
-      if ($current_path == '/') {
+      if ($current_path == '') {
         // Nothing has changed. Empty slugs are not good.
         continue;
       }
+
+      $current_path = "/$current_path/";
 
       $page_data_array = array(
         'slug' => $current_path
