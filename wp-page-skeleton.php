@@ -84,6 +84,8 @@ class WPSkeleton {
         'slug' => $current_path
       );
 
+      if (!array_key_exists('template', $page_data)) { $page_data['template'] = 'default'; }
+
       $current_page = get_page_by_path($current_path);
 
       // If the page exists:
