@@ -37,6 +37,8 @@ $wp_page_skeleton->sync($action, $compare);
       <th>Slug</th>
       <th>Action</th>
       <th>Page Template</th>
+      <th>Page Title</th>
+      <th>Update Contents?</th>
     </tr>
   </thead>
   <tbody class="<?php echo $action ? 'action' : 'no-action ' ?> <?php echo $compare ? 'comparison' : 'no-comparison'; ?>">
@@ -53,6 +55,8 @@ $wp_page_skeleton->sync($action, $compare);
       </td>
       <td><?php echo $action ? '' : 'will ' ?> <?php echo $p['action']; ?></td>
       <td><?php echo array_key_exists('template', $p['data']) ? $p['data']['template'] : 'default'; ?></td>
+      <td><?php echo array_key_exists('title', $p['data']) ? $p['data']['title'] : '(unset)'; ?></td>
+      <td><?php echo array_key_exists('content', $p['data']) ? '✓' : '×'; ?></td>
     </tr>
     <?php endforeach; ?>
   </tbody>
