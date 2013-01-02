@@ -50,7 +50,7 @@ $wp_page_skeleton->sync($action);
         </a>
         <?php endif; ?>
       </td>
-      <td><?php echo $action ? '' : 'will ' ?> <?php echo $p['action']; ?></td>
+      <td><?php echo $p['action']; ?></td>
       <td><?php echo array_key_exists('template', $p['data']) ? $p['data']['template'] : 'default'; ?></td>
       <td><?php echo array_key_exists('title', $p['data']) ? $p['data']['title'] : '(unset)'; ?></td>
       <td><?php echo array_key_exists('content', $p['data']) ? '✓' : '×'; ?></td>

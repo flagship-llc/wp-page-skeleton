@@ -90,37 +90,43 @@ class WPSkeleton {
 
       // If the page exists:
       if ($current_page != null) {
-        $page_data_array['action'] = 'update';
-
         // Since the page exists, we can embed the actual page into the array
         $page_data_array['page'] = $current_page;
 
-        if ($action === false) {
+        $new_page = $this->make_page_array($page_data, $parent);
+        $new_page['ID'] = $current_page->ID;
 
-          // No action update
+        if ($this->page_needs_update($current_page, $new_page, $page_data['template'])) {
+          $page_data_array['action'] = 'will update';
 
-        } else {
+          if ($action == true) {
 
-          // Update the page
-          $new_page = $this->make_page_array($page_data, $parent);
-          $new_page['ID'] = $current_page->ID;
-          wp_update_post($new_page);
+            $page_data_array['action'] = 'updated';
 
-          if (array_key_exists('template', $page_data)) {
-            update_post_meta($new_page['ID'], '_wp_page_template', $page_data['template']);
+            // Update the page
+            
+            wp_update_post($new_page);
+
+            if (array_key_exists('template', $page_data)) {
+              update_post_meta($new_page['ID'], '_wp_page_template', $page_data['template']);
+            }
+
           }
-
+            
+        } else {
+          $page_data_array['action'] = 'none';
         }
 
       } else {
         // If the page doesn't exist, create page
-        $page_data_array['action'] = 'create';
 
         if ($action === false) {
+          $page_data_array['action'] = 'will create';
 
           $current_page = isset($slugs) ? $slugs : array(sanitize_title($slug));
 
         } else {
+          $page_data_array['action'] = 'created';
 
           $new_page = $this->make_page_array($page_data, $parent, $slug);
 
@@ -262,6 +268,38 @@ class WPSkeleton {
 
       $this->recurse_pages($include_content, $parents_a, $slugs_a);
     }
+  }
+
+  private function page_needs_update($page, $page_data_array, $template = 'default') {
+    if (is_integer($page)) {
+      // This is actually a page ID that needs to be converted to an object.
+      $page = get_page($page);
+    }
+
+    if (!is_object($page)) {
+      // This page probably doesn't exist.
+      return true;
+    }
+
+    if (isset($page_data_array['template'])) {
+      $template = $page_data_array['template'];
+    }
+
+    foreach ($page_data_array as $key => $value) {
+      if (isset($page->$key)) {
+        if ($page->$key != $value) {
+          return true;
+        }
+      }
+    }
+
+    // Check the template
+    $now_template = get_post_meta($page->ID, '_wp_page_template', true);
+    if ($now_template != $template) {
+      return true;
+    }
+
+    return false;
   }
 
   private function make_page_array($page_data, $parent, $slug = null) {
