@@ -43,7 +43,7 @@ $wp_page_skeleton->sync($action);
     <tr>
       <td>
         <?php if (array_key_exists('page', $p)): ?>
-        <a href="<?php echo get_permalink($p['page']); ?>">
+        <a href="<?php echo get_permalink($p['page']); ?>" target="_blank">
         <?php endif; ?>
           <?php echo urldecode($p['slug']); ?>
         <?php if (array_key_exists('page', $p)): ?>
