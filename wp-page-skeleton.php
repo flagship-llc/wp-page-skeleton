@@ -37,7 +37,7 @@ class WPSkeleton {
     return Spyc::YAMLLoad($this->file);
   }
 
-  function sync($action = true, $compare = false, $pages_array = false, $parent = false) {
+  function sync($action = true, $pages_array = false, $parent = false) {
     if ($pages_array === false) {
       // Use the root element.
       $pages_array = $this->load_configuration();
@@ -139,7 +139,7 @@ class WPSkeleton {
 
       // Recurse into child pages.
       if (array_key_exists('pages', $page_data)) {
-        $this->sync($action, $compare, $page_data['pages'], $current_page);
+        $this->sync($action, $page_data['pages'], $current_page);
       }
     }
   }

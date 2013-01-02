@@ -2,7 +2,6 @@
 // Admin page.
 
 $sync_label = 'Sync pages from Skeleton';
-$compare_label = 'Compare pages with Skeleton';
 ?>
 <div id="page_skeleton">
 
@@ -18,17 +17,15 @@ else:
 ?>
 
 <?php
-$action = $compare = false;
+$action = false;
 
 if (wp_verify_nonce($_POST['_wpnonce'], 'wp_page_skeleton_sync')) {
   if ($_POST['act'] == $sync_label) {
     $action = true;
-  } elseif ($_POST['act'] == $compare_label) {
-    $compare = true;
   }
 }
 
-$wp_page_skeleton->sync($action, $compare);
+$wp_page_skeleton->sync($action);
 ?>
 
 <table class="wp-list-table widefat fixed">
@@ -66,7 +63,6 @@ $wp_page_skeleton->sync($action, $compare);
   <?php wp_nonce_field( 'wp_page_skeleton_sync' ); ?>
   <div class="button-wrapper">
     <input type="submit" name="act" value="<?php echo $sync_label; ?>" class="button-primary" />
-    <input type="submit" name="act" value="<?php echo $compare_label; ?>" class="button-primary" />
   </div>
 </form>
 
