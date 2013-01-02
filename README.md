@@ -9,7 +9,7 @@ Each page element supports the following attributes:
 * title (post_title)
 * content (post_content)
 * status (post_status) - defaults to "publish"
-* template - the filename of the PHP template
+* template - the filename of the PHP template (directories permitted!!)
 
 All attributes are optional, and on update, *will* override changes that were made directly in WordPress. For example, if you rename a page titled "Hello" to "Goodbye", but skeleton.yml still has "Hello", the page will be renamed back to "Hello".
 
@@ -22,6 +22,8 @@ There is no mechanism to rename page slugs. You'll still have to do this manuall
 This plugin is made for people with a moderate to high understanding of WordPress structure and theme development. It is meant to help you keep your development / production / staging environments synchronized, while leveraging the power of source control to help manage the structure. That's why the skeleton.yml file is kept inside your theme folder.
 
 We use git.
+
+If you organize your templates in directories, be warned that WordPress 3.3 and earlier will _not_ show them in the "page template" drop-down menu. WordPress 3.4 and later will show one directory level deep. Using Page Skeleton, you can use as many directory levels deep as you like! Just try not to update the page within WordPress (this is not tested behaviour)
 
 ## Requirements
 

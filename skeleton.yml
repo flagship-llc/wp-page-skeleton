@@ -9,10 +9,11 @@ contact: # the page slug. In this case, this page will have the structure /conta
     form: # structure: /contact/form/
       title: Contact form
       content: Some contact form
-      template: template-contact-form.php
+      template: contact/form.php
     employees: # structure: /contact/employees/
       title: Contact employees
       content: We have many employees you can contact directly.
+      template: contact/employees.php
 about: # structure: /about/
   title: About Page Skeleton
   template: template-about-page-skeleton.php
