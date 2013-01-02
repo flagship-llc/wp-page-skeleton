@@ -1,13 +1,6 @@
 <?php
 // Admin generate page
 ?>
-<style type="text/css">
-
-#page_skeleton .block-label {
-  display: block;
-}
-
-</style>
 <div id="page_skeleton">
 
 <h1>Page Skeleton</h1>
@@ -55,7 +48,9 @@ if (isset($out)) {
   <label for="write_to_file" class="block-label">
     <input type="checkbox" name="write_to_file" id="write_to_file" value="yes"> Write to file? (<?php echo $wp_page_skeleton->file; ?>)
   </label>
-  <input type="submit" value="Export current page structure to Skeleton" class="button-primary" />
+  <div class="button-wrapper">
+    <input type="submit" value="Export current page structure to Skeleton" class="button-primary" />
+  </div>
 </form>
 
 </div>

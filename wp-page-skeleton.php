@@ -35,7 +35,7 @@ class WPSkeleton {
     return Spyc::YAMLLoad($this->file);
   }
 
-  function sync($action = true, $pages_array = false, $parent = false) {
+  function sync($action = true, $compare = false, $pages_array = false, $parent = false) {
     if ($pages_array === false) {
       // Use the root element.
       $pages_array = $this->load_configuration();
@@ -131,11 +131,13 @@ class WPSkeleton {
         }
       }
 
-      // Recurse into child pages.
+      $page_data_array['data'] = $page_data;
+
       $this->pages_to_update[] = $page_data_array;
 
+      // Recurse into child pages.
       if (array_key_exists('pages', $page_data)) {
-        $this->sync($action, $page_data['pages'], $current_page);
+        $this->sync($action, $compare, $page_data['pages'], $current_page);
       }
     }
   }
@@ -164,14 +166,16 @@ class WPSkeleton {
   }
 
   function admin_init() {
-
+    wp_register_style('wp-page-skeleton-admin', plugins_url('admin_style.css', __FILE__));
   }
 
   function admin_menu() {
 
     $wp_page_skeleton = $this;
 
-    add_menu_page(
+    $my_pages = array();
+
+    $my_pages[] = add_menu_page(
       'Skeleton',
       'Skeleton',
       'edit_pages',
@@ -181,7 +185,7 @@ class WPSkeleton {
       }
     );
 
-    add_submenu_page(
+    $my_pages[] = add_submenu_page(
       'wp_page_skeleton',
       'Generate Skeleton',
       'Generate Skeleton',
@@ -192,6 +196,14 @@ class WPSkeleton {
       }
     );
 
+    foreach ($my_pages as $my_page) {
+      add_action("admin_print_styles-{$my_page}", array($this, 'admin_styles'));
+    }
+
+  }
+
+  function admin_styles() {
+    wp_enqueue_style('wp-page-skeleton-admin');
   }
 
   private $master_page_array = array();

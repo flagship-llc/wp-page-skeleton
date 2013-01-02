@@ -1,6 +1,11 @@
 <?php
 // Admin page.
+
+$sync_label = 'Sync pages from Skeleton';
+$compare_label = 'Compare pages with Skeleton';
 ?>
+<div id="page_skeleton">
+
 <h1>Page Skeleton</h1>
 <?php
 if (!$wp_page_skeleton->enabled):
@@ -13,13 +18,17 @@ else:
 ?>
 
 <?php
+$action = $compare = false;
+
 if (wp_verify_nonce($_POST['_wpnonce'], 'wp_page_skeleton_sync')) {
-  $action = true;
-} else {
-  $action = false;
+  if ($_POST['act'] == $sync_label) {
+    $action = true;
+  } elseif ($_POST['act'] == $compare_label) {
+    $compare = true;
+  }
 }
 
-$wp_page_skeleton->sync($action);
+$wp_page_skeleton->sync($action, $compare);
 ?>
 
 <table class="wp-list-table widefat fixed">
@@ -27,9 +36,10 @@ $wp_page_skeleton->sync($action);
     <tr>
       <th>Slug</th>
       <th>Action</th>
+      <th>Page Template</th>
     </tr>
   </thead>
-  <tbody>
+  <tbody class="<?php echo $action ? 'action' : 'no-action ' ?> <?php echo $compare ? 'comparison' : 'no-comparison'; ?>">
     <?php foreach ($wp_page_skeleton->pages_to_update as $p): ?>
     <tr>
       <td>
@@ -41,7 +51,8 @@ $wp_page_skeleton->sync($action);
         </a>
         <?php endif; ?>
       </td>
-      <td><?php echo $action ? 'done:' : 'will:' ?> <?php echo $p['action']; ?></td>
+      <td><?php echo $action ? '' : 'will ' ?> <?php echo $p['action']; ?></td>
+      <td><?php echo array_key_exists('template', $p['data']) ? $p['data']['template'] : 'default'; ?></td>
     </tr>
     <?php endforeach; ?>
   </tbody>
@@ -49,9 +60,14 @@ $wp_page_skeleton->sync($action);
 
 <form action="" method="POST">
   <?php wp_nonce_field( 'wp_page_skeleton_sync' ); ?>
-  <input type="submit" value="Sync pages from Skeleton" class="button-primary" />
+  <div class="button-wrapper">
+    <input type="submit" name="act" value="<?php echo $sync_label; ?>" class="button-primary" />
+    <input type="submit" name="act" value="<?php echo $compare_label; ?>" class="button-primary" />
+  </div>
 </form>
 
 <?php
 endif;
 ?>
+
+</div>
