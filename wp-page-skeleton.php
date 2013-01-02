@@ -9,11 +9,13 @@ Author URI: http://keita.flagship.cc/
 License: MIT
 */
 
-$spyc_path = dirname(__FILE__) . '/spyc/Spyc.php';
-if (!is_file($spyc_path)) {
-  wp_die("Cannot find Spyc. Maybe git submodules aren't initialized.");
-} else {
-  require_once($spyc_path);
+if (!class_exists('Spyc')) {
+  $spyc_path = dirname(__FILE__) . '/spyc/Spyc.php';
+  if (!is_file($spyc_path)) {
+    wp_die("Cannot find Spyc. Maybe git submodules aren't initialized.");
+  } else {
+    require_once($spyc_path);
+  }
 }
 
 class WPSkeleton {
