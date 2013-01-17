@@ -2,8 +2,8 @@
 /*
 Plugin Name: Page Skeleton
 Plugin URI: http://keita.flagship.cc/page-skeleton/
-Description: Reads a file called "skeleton.yml" in your theme folder to keep your static pages in sync.
-Version: 0.1
+Description: Page Skeleton is a plugin that will recreate static page structures for large sites.
+Version: 1.0
 Author: Keitaroh Kobayashi, Flagship LLC
 Author URI: http://keita.flagship.cc/
 License: MIT

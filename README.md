@@ -28,8 +28,8 @@ If you organize your templates in directories, be warned that WordPress 3.3 and 
 ## Requirements
 
 * PHP 5.3 or later
-* WordPress (tested with 3.3.1 and 3.4.1. YMMV.)
-* [Spyc](https://github.com/mustangostang/spyc). Included as a git submodule, so don't forget to git submodule init.
+* WordPress (tested with 3.3.1, 3.4.1, and 3.5. YMMV.)
+* [Spyc](https://github.com/mustangostang/spyc).
 
 # License
 
