@@ -5,19 +5,24 @@ contact: # the page slug. In this case, this page will have the structure /conta
   title: Contact us!
   content: We want you to contact us. So please use our form to contact us!
   template: template-contact-page.php
+  menu_order: 1
   pages: # child "pages" element: all pages will be children of the "contact" page
     form: # structure: /contact/form/
       title: Contact form
       content: Some contact form
       template: contact/form.php
+      menu_order: 1
     employees: # structure: /contact/employees/
       title: Contact employees
       content: We have many employees you can contact directly.
       template: contact/employees.php
+      menu_order: 2
 about: # structure: /about/
   title: About Page Skeleton
   template: template-about-page-skeleton.php
+  menu_order: 2
   pages:
     features: # structure: /about/features/
       title: features
       content: This content uses the default template
+      menu_order: 1

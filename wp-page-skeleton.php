@@ -241,7 +241,8 @@ class WPSkeleton {
 
       $page_array = array(
         'title' => $page->post_title,
-        'status' => $page->post_status
+        'status' => $page->post_status,
+        'menu_order' => $page->menu_order
       );
 
       if ($include_content === true) {
@@ -321,6 +322,12 @@ class WPSkeleton {
       $new_page['post_status'] = $page_data['status'];
     } else {
       $new_page['post_status'] = 'publish';
+    }
+
+    if (array_key_exists('menu_order', $page_data)) {
+      $new_page['menu_order'] = $page_data['menu_order'];
+    } else {
+      $new_page['menu_order'] = 0;
     }
 
     if ($parent !== false) {
