@@ -3,7 +3,7 @@ Contributors: keita_kobayashi
 Tags: development, static page, structure, sync
 Requires at least: 3.3.1
 Tested up to: 3.5
-Stable tag: 1.0
+Stable tag: 1.0.1
 License: MIT
 License URI: https://github.com/flagship-llc/wp-page-skeleton/blob/master/README.md
 
@@ -36,6 +36,9 @@ It will if you aren't careful. Please make sure you're backing up your site regu
 Yes! Use the "Generate Skeleton" option to make the `skeleton.yml` file.
 
 == Changelog ==
+
+= 1.0.1 =
+* Adds support for *menu_order*
 
 = 1.0 =
 * Initial release

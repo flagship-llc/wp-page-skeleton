@@ -3,7 +3,7 @@
 Plugin Name: Page Skeleton
 Plugin URI: http://keita.flagship.cc/page-skeleton/
 Description: Page Skeleton is a plugin that will recreate static page structures for large sites.
-Version: 1.0
+Version: 1.0.1
 Author: Keitaroh Kobayashi, Flagship LLC
 Author URI: http://keita.flagship.cc/
 License: MIT
