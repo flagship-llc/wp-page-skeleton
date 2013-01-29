@@ -51,7 +51,7 @@ class WPSkeleton {
         $current_path = sanitize_title($slug);
       } else {
         // We have a parent.
-        
+
         if (is_object($parent)) {
 
           if (count($parent->ancestors) > 0) {
@@ -104,7 +104,7 @@ class WPSkeleton {
             $page_data_array['action'] = 'updated';
 
             // Update the page
-            
+
             wp_update_post($new_page);
 
             if (array_key_exists('template', $page_data)) {
@@ -112,7 +112,7 @@ class WPSkeleton {
             }
 
           }
-            
+
         } else {
           $page_data_array['action'] = 'none';
         }
@@ -168,7 +168,7 @@ class WPSkeleton {
         $error = 'file permission';
       } else {
         fwrite($f, $skeleton);
-        fclose($f); 
+        fclose($f);
       }
     }
 
