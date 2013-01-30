@@ -33,6 +33,11 @@ If you organize your templates in directories, be warned that WordPress 3.3 and 
 
 ## Changelog
 
+### Version 1.0.2
+
+* The generator sorts by *menu_order*
+* *menu_order* is ommitted if 0
+
 ### Version 1.0.1
 
 * Adds support for *menu_order*
