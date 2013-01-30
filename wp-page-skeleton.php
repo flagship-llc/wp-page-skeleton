@@ -222,7 +222,8 @@ class WPSkeleton {
     $args = array(
       'hierarchical' => 0,
       'child_of' => end($parents),
-      'parent' => end($parents)
+      'parent' => end($parents),
+      'sort_column' => 'menu_order'
     );
     $pages = get_pages($args);
     foreach ($pages as $page) {
