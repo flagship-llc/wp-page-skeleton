@@ -242,9 +242,12 @@ class WPSkeleton {
 
       $page_array = array(
         'title' => $page->post_title,
-        'status' => $page->post_status,
-        'menu_order' => $page->menu_order
+        'status' => $page->post_status
       );
+
+      if ($page->menu_order > 0) {
+        $page_array['menu_order'] = $page->menu_order;
+      }
 
       if ($include_content === true) {
         $page_array['content'] = $page->post_content;
